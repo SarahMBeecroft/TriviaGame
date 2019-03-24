@@ -1,6 +1,7 @@
 //Global variables
 
 // Game Objects
+//======================================================================================
 
 // Trivia questions
 var questions = {
@@ -44,23 +45,62 @@ var answers = {
     question10: ["A Sith Lord"],
 }
 
+var currentQuestion = 0;
 var correctGuesses = 0;
 var incorrectGuesses = 0;
 var unanswered = 0;
-var timer = // 30 seconds
+var timer = 30;
 
-// Game pseudocode
 
-// User opens page
+// Game functions
+//======================================================================================
+
+// Function for game countdown
+function countdown(){
+	seconds = 30;
+	$('#timer').html('<h2>Time Remaining: ' + seconds + '</h2>');
+	answered = true;
+	// Sets timer to countdown by seconds
+	time = setInterval(showCountdown, 1000);
+}
+
+// Function to show game countdown
+function showCountdown(){
+	seconds--;
+	$('#timer').html('<h2>Time Remaining: ' + seconds + '</h2>');
+	if(seconds < 1){
+		clearInterval(time);
+	}
+}
+
+// Game begins
+//======================================================================================
+
 // Makes function available after page loads
 $(document).ready(function(){
 
 
+// Creates start button 
+var startButton = document.createElement("button");
+// Adds text to button
+startButton.innerHTML = "Start Game";
 
-// User clicks on start button to begin game
+// Adds to the DOM
+$('#start').html(startButton);
 
-/* User sees first question and 4 possible answers, timer starts counting down from 
-30 seconds  */
+// Click event to start timer, hide start button, and load first question
+$('#start').on('click', function () {
+    // Hides start button on click
+    $(this).hide();
+    // Calls countdown function
+    countdown();
+});
+
+
+
+
+
+
 
 // If user guesses correctly, show "correct!" and image for 5 seconds
 // If user guess incorrectly, show "incorrect!," correct answer, and image for 5 seconds
@@ -72,4 +112,4 @@ $(document).ready(function(){
 correct guesses, incorrect guesses, and unanswered questions, along with a start over button 
 to reset the entire game */
 
-
+})
