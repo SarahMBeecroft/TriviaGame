@@ -55,6 +55,7 @@ var triviaQuestions = [{
 console.log(triviaQuestions);
 
 var currentQuestion = 0;
+// Counter for correct guesses
 var correctGuesses = 0;
 
 
@@ -64,6 +65,7 @@ var answered;
 
 var timer = 30;
 var index;
+// Stores user's current guess 
 var userGuess = [];
 
 
@@ -75,7 +77,8 @@ var userGuess = [];
 
 // Function for game countdown
 function countdown(){
-	seconds = 30;
+    seconds = 30;
+    // Shows user time remaining in seconds
 	$('#timer').html('<h2>Time Remaining: ' + seconds + '</h2>');
 	answered = true;
 	// Sets timer to countdown by seconds
@@ -98,19 +101,53 @@ function stopTimer() {
     clearInterval(time);
 };
 
+
 // Function to load a question and options
 function showQuestion() {
+    // Adds current question to question ID in HTML
     $('#question').html(parseInt(currentQuestion) + 1 + ". " + triviaQuestions[currentQuestion].question);
+    // Creates variable for list of options
     var options = triviaQuestions[currentQuestion].options;
+    // Creates radio button for options
     var radioButton = '';
     for (var i = 0; i < options.length; i++) {
       radioButton += '<div><input type="radio" name="option" value="' + i + '" id="option' + i + '"><label for="option' + i + '">' +
         triviaQuestions[currentQuestion].options[i] + '</label></div><br/>';
     }
     $('#options').html(radioButton);
+    // Checks to see which option user checks
+    $("#option0").prop('checked', true);
   };
 
 
+// Function to gather users choice
+$(document).on("click", "input[name=option]:checked", function() {
+    
+    // Takes value from button user clicks
+    var userGuess = ($(this).attr("value"));
+
+    // Converts string to integer
+    userGuess = parseInt(userGuess);
+
+    console.log(userGuess);
+
+
+
+  });
+
+
+// Function to check for right answer
+function checkAnswer() {
+    if ($("input[name=option]:checked").val() === triviaQuestions.answer) {
+        // Adds plus one to correct guesses
+        alert("right ansswer");
+        correctGuesses++;
+        stopTimer();
+    };
+  };
+  
+  // Testing check answer function
+  console.log(checkAnswer);
 
 
 // Game begins
@@ -135,6 +172,7 @@ $('#start').on('click', function () {
     // Calls countdown function
     countdown();
     showQuestion();
+    checkAnswer();
 });
 
 
