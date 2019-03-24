@@ -54,11 +54,19 @@ var triviaQuestions = [{
 // Testing object
 console.log(triviaQuestions);
 
+var currentQuestion = 0;
 var correctGuesses = 0;
+
+
 var incorrectGuesses = 0;
-var unanswered = 0;
+var unanswered;
+var answered;
+
 var timer = 30;
+var index;
 var userGuess = [];
+
+
 
 
 
@@ -84,8 +92,23 @@ function showCountdown(){
 	}
 }
 
-// Function to load a new question
+// Function to stop timer
+function stopTimer() {
+    running = false;
+    clearInterval(time);
+};
 
+// Function to load a question and options
+function showQuestion() {
+    $('#question').html(parseInt(currentQuestion) + 1 + ". " + triviaQuestions[currentQuestion].question);
+    var options = triviaQuestions[currentQuestion].options;
+    var radioButton = '';
+    for (var i = 0; i < options.length; i++) {
+      radioButton += '<div><input type="radio" name="option" value="' + i + '" id="option' + i + '"><label for="option' + i + '">' +
+        triviaQuestions[currentQuestion].options[i] + '</label></div><br/>';
+    }
+    $('#options').html(radioButton);
+  };
 
 
 
@@ -111,7 +134,7 @@ $('#start').on('click', function () {
     $(this).hide();
     // Calls countdown function
     countdown();
-    newQuestion();
+    showQuestion();
 });
 
 
