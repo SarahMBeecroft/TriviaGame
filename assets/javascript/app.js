@@ -1,55 +1,65 @@
-//Global variables
+//Global Variables
 
-// Game Objects
+// Trivia Questions Object
 //======================================================================================
 
-// Trivia questions
-var questions = {
-    question1: "Which restaurant chain was Pam banned from?",
-    question2: "Who is Michael Scott's favorite actress?",
-    question3: "What is printed on Michael's coffee mug?",
-    question4: "Who does Angela name her son after?",
-    question5: "What is the name of the security guard?",
-    question6: "Who's car is hit with a watermelon during safety training?",
-    question7: "What does Jim put for Dwight's middle name on his ID badge?",
-    question8: "Who has two thumbs and hates Todd Packer?",
-    question9: "Who is the main character in Threat Level Midnight?",
-    question10: "What did Dwight dress up as in the first Halloween episode?"
-}
+var triviaQuestions = [{
+    question: "Which restaurant chain was Pam banned from?",
+    options: ["Denny's", "Chili's", "Applebees", "IHOP"],
+    answer: [1],
+},
 
-// Array of options for user to guess from
-var options = {
-    question1: ["Denny's", "Chili's", "Applebees", "IHOP"],
-    question2: ["Meryl Streep", "Julia Roberts", "Nicole Kidman", "Anne Hathaway"],
-    question3: ["World's Most Amazing Boss", "World's Greatest Boss", "World's Worst Boss", "World's Best Boss"],
-    question4: ["Her father", "Her cat", "Her best friend", "A celebrity"],
-    question5: ["Frank", "Bob", "Hank", "Greg"],
-    question6: ["Stanley", "Creed", "Jim", "Meredith"],
-    question7: ["Butts", "Fart", "Danger", "Wait for it"],
-    question8: ["Pam", "Michael Scott", "Phyllis", "Jim"],
-    question9: ["Michael Scarn", "Nicolas Cage", "Michael Scorpio", "Michael Buble"],
-    question10: ["Beet farmer", "A Sith Lord", "Jim", "Spock"],
-}
+{
+    question: "Who is Michael Scott's favorite actress?",
+    options: ["Meryl Streep", "Julia Roberts", "Nicole Kidman", "Anne Hathaway"],
+    answer: [0]
+},
 
-// Answer key
-var answers = {
-    question1: ["Chili's"],
-    question2: ["Meryl Streep"],
-    question3: ["World's Best Boss"],
-    question4: ["Her cat"],
-    question5: ["Hank"],
-    question6: ["Stanley"],
-    question7: ["Fart"],
-    question8: ["Jim"],
-    question9: ["Michael Scarn"],
-    question10: ["A Sith Lord"],
-}
+{
+    question: "What is the name of the security guard?",
+    options: ["Frank", "Bob", "Hank", "Greg"],
+    answer: [2],
+},
 
-var currentQuestion = 0;
+{
+    question: "Whose car is hit with a watermelon during safety training?",
+    options: ["Stanley", "Creed", "Jim", "Meredith"],
+    answer: [0],
+},
+
+{
+    question: "What does Jim put for Dwight's middle name on his ID badge?",
+    options: ["Butts", "Fart", "Danger", "Wait for it"],
+    answer: [0],
+},
+
+{
+    question: "Who has two thumbs and hates Todd Packer?",
+    options: ["Pam", "Michael Scott", "Phyllis", "Jim"],
+    answer: [3],
+},
+
+{
+    question: "Who is the main character in Threat Level Midnight?",
+    options: ["Michael Scarn", "Nicolas Cage", "Michael Scorpio", "Michael Buble"],
+    answer: [0],
+},
+
+{
+    question: "What did Dwight dress up as in the first Halloween episode?",
+    options: ["Beet farmer", "A Sith Lord", "Jim", "Spock"],
+    answer: [1],
+}];
+
+// Testing object
+console.log(triviaQuestions);
+
 var correctGuesses = 0;
 var incorrectGuesses = 0;
 var unanswered = 0;
 var timer = 30;
+var userGuess = [];
+
 
 
 // Game functions
@@ -67,11 +77,18 @@ function countdown(){
 // Function to show game countdown
 function showCountdown(){
 	seconds--;
-	$('#timer').html('<h2>Time Remaining: ' + seconds + '</h2>');
+    $('#timer').html('<h2>Time Remaining: ' + seconds + '</h2>');
+    // Clears timer at less than 1 second
 	if(seconds < 1){
 		clearInterval(time);
 	}
 }
+
+// Function to load a new question
+
+
+
+
 
 // Game begins
 //======================================================================================
@@ -94,6 +111,7 @@ $('#start').on('click', function () {
     $(this).hide();
     // Calls countdown function
     countdown();
+    newQuestion();
 });
 
 
