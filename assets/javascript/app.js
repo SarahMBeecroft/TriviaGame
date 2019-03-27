@@ -1,5 +1,3 @@
-//Global Variables
-
 // Trivia Questions Object
 //======================================================================================
 
@@ -54,27 +52,26 @@ var triviaQuestions = [{
 // Testing object
 console.log(triviaQuestions);
 
-var currentQuestion = 0;
-var correctGuesses = 0;
-var incorrectGuesses = 0;
-var unanswered = 0;
-var answered;
+
+// Global Variables
+//======================================================================================
+
 var timer = 30;
+var intervalId;
+var currentQuestion = 0;
+// var quizContainer = $('#quiz');
+var results = $('#gameresults');
+var submitButton = $("#submit");
 var index;
 var userGuess = [];
 
-
+var correctGuesses = 0;
+var incorrectGuesses = 0;
+var unanswered = 3;
 
 
 // Game functions
 //======================================================================================
-
-// Function to start fresh with a new game
-function startGame() {
-    correctGuesses = 0;
-    incorrectGuesses = 0;
-    unanswered = 0;
-}
 
 // Function for game countdown
 function countdown() {
@@ -157,21 +154,14 @@ function checkAnswer() {
     });
 
     // sdfsdfdsf
-    if (currentQuestion === triviaQuestions.length - 1){
+    if (currentQuestion === triviaQuestions.length - 1) {
         setTimeout(results, 3 * 1000);
-      } else {
+    } else {
         setTimeout(game.nextQuestion, 3 * 1000);
-      }
+    }
 }
 
-// Restart function for end of game
-function restart() {
-    $("#restart").add("<button>");
-    $("<button>").text("Play Again!");
-    $("<button>").on("click", function (event) {
-        startGame();      
-        
-}
+
 
 
 // Game begins
@@ -179,16 +169,14 @@ function restart() {
 
 // Makes function available after page loads
 $(document).ready(function () {
-    
-    startGame();
 
     // Creates start button 
     var startButton = document.createElement("button");
     // Adds text to button
     startButton.innerHTML = "Start Game";
-
     // Adds to the DOM
     $('#start').html(startButton);
+
 
     // Click event to start timer, hide start button, and load first question
     $('#start').on('click', function () {
