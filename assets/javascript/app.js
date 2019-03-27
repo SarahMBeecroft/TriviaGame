@@ -5,7 +5,8 @@ var triviaQuestions = [{
     question: "Which restaurant chain was Pam banned from?",
     options: ["Denny's", "Chili's", "Applebees", "IHOP"],
     answer: [1],
-    answerName: "Chili's"
+    answerName: "Chili's",
+    answerImage: "../assets/images/chilis.png"
 },
 
 {
@@ -75,27 +76,11 @@ var userGuess = [];
 var correctGuesses = 0;
 var incorrectGuesses = 0;
 var unanswered = 3;
+var submitButton
 
 
 // Game functions
 //======================================================================================
-
-
-
-// Function to show results or go to next question
-function resultsPage() {
-    if (currentQuestion === 8 || i === 30) {
-        $('#gameresults').html(correctAnswers);
-        $('#gameresults').html(incorrectAnswers);
-        $('#question').empty();
-        $('#options').empty();
-        $('#timer').empty();
-    }
-    else {
-        showQuestion();
-    };
-};
-
 
 // Function for game countdown
 function countdown() {
@@ -125,44 +110,6 @@ function stopTimer() {
 };
 
 
-// Function to gather user's choice, stop timer and check answer
-function checkAnswer() {
-    $(submitButton).on("click", "input[name=option]:checked", function () {
-
-
-        // Takes value from button user clicks
-        var userGuess = ($(this).attr("value"));
-
-        // Converts string to integer
-        userGuess = parseInt(userGuess);
-
-        // Stops timer
-        stopTimer();
-
-        // Checks to see if user's guess matches correct answer
-        if (userGuess == triviaQuestions[currentQuestion].answer) {
-            $('#gamemessage').text("That is correct!");
-            // Adds plus one to correct guesses
-            correctGuesses++;
-            resultsPage();
-        } else if (userGuess !== triviaQuestions[currentQuestion].answer) {
-            answer =
-                $('#gamemessage').text("Wrong! The correct answer was " + triviaQuestions[currentQuestion].answerName + '.');
-            // Adds plus one to incorrect guesses
-            incorrectGuesses++;
-            resultsPage();
-
-        } else {
-            // Adds plus on to unanswered if user doesn't click on any of the options
-            unanswered++;
-            resultsPage();
-        };
-
-    });
-
-}
-
-
 // Function to load a question and options
 function showQuestion() {
     // Adds current question to question ID in HTML
@@ -187,17 +134,65 @@ function showQuestion() {
     // Adds to the DOM
     $('#submit').html(submitButton);
 
-
-    // Click event to start timer, hide start button, and load first question
-    $('#submit').on('click', function (submitButton) {
-        stopTimer();
-        checkAnswer();
-    });
-
+    checkAnswer();
 
 };
 
 
+// Function to gather user's choice, stop timer and check answer
+function checkAnswer() {
+
+    // Click event to stop timer and check answer when user hits submit button
+    $('#submit').on('click', function () {
+      stopTimer();
+      checkAnswer();
+ 
+
+
+      // Takes value from button user clicks
+      var userGuess = ($(this).attr("value"));
+
+      // Converts string to integer
+      userGuess = parseInt(userGuess);
+
+      // Stops timer
+      stopTimer();
+
+      // Checks to see if user's guess matches correct answer
+      if (userGuess == triviaQuestions[currentQuestion].answer) {
+          $('#gamemessage').text("That is correct!");
+          $("#image").html(answerImage);
+          // Adds plus one to correct guesses
+          correctGuesses++;
+      } else if (userGuess !== triviaQuestions[currentQuestion].answer) {
+          answer =
+              $('#gamemessage').text("Wrong! The correct answer was " + triviaQuestions[currentQuestion].answerName + '.');
+          // Adds plus one to incorrect guesses
+          incorrectGuesses++
+      } else {
+          // Adds plus on to unanswered if user doesn't click on any of the options
+          unanswered++;
+      };
+
+  });
+
+}
+
+
+// Function to show results or go to next question
+function resultsPage() {
+    if (currentQuestion === 8) {
+        $('#gameresults').html(correctAnswers);
+        $('#gameresults').html(incorrectAnswers);
+        $('#question').empty();
+        $('#options').empty();
+        $('#timer').empty();
+    }
+    else {
+        showQuestion();
+        checkAnswer();
+    };
+};
 
 
 
