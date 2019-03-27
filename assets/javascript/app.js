@@ -12,7 +12,7 @@ var triviaQuestions = [{
 {
     question: "Who is Michael Scott's favorite actress?",
     options: ["Meryl Streep", "Julia Roberts", "Nicole Kidman", "Anne Hathaway"],
-    answer: [0]
+    answer: [0],
 },
 
 {
@@ -55,19 +55,13 @@ var triviaQuestions = [{
 console.log(triviaQuestions);
 
 var currentQuestion = 0;
-// Counter for correct guesses
 var correctGuesses = 0;
-
-
 var incorrectGuesses = 0;
-var unanswered;
+var unanswered = 0;
 var answered;
-
 var timer = 30;
 var index;
-// Stores user's current guess 
 var userGuess = [];
-
 
 
 
@@ -75,24 +69,32 @@ var userGuess = [];
 // Game functions
 //======================================================================================
 
+// Function to start fresh with a new game
+function startGame() {
+    correctGuesses = 0;
+    incorrectGuesses = 0;
+    unanswered = 0;
+}
+
 // Function for game countdown
-function countdown(){
+function countdown() {
     seconds = 30;
     // Shows user time remaining in seconds
-	$('#timer').html('<h2>Time Remaining: ' + seconds + '</h2>');
-	answered = true;
-	// Sets timer to countdown by seconds
-	time = setInterval(showCountdown, 1000);
+    $('#timer').html('<h2>Time Remaining: ' + seconds + '</h2>');
+    answered = true;
+    // Sets timer to countdown by seconds
+    time = setInterval(showCountdown, 1000);
 }
 
 // Function to show game countdown
-function showCountdown(){
-	seconds--;
+function showCountdown() {
+    seconds--;
     $('#timer').html('<h2>Time Remaining: ' + seconds + '</h2>');
     // Clears timer at less than 1 second
-	if(seconds < 1){
-		clearInterval(time);
-	}
+    // Add mechanism to stop on click event
+    if (seconds < 1) {
+        clearInterval(time);
+    }
 }
 
 // Function to stop timer
@@ -111,84 +113,107 @@ function showQuestion() {
     // Creates radio button for options
     var radioButton = '';
     for (var i = 0; i < options.length; i++) {
-      radioButton += '<div><input type="radio" name="option" value="' + i + '" id="option' + i + '"><label for="option' + i + '">' +
-        triviaQuestions[currentQuestion].options[i] + '</label></div><br/>';
+        radioButton += '<div><input type="radio" name="option" value="' + i + '" id="option' + i + '"><label for="option' + i + '">' +
+            triviaQuestions[currentQuestion].options[i] + '</label></div><br/>';
     }
     $('#options').html(radioButton);
     // Checks to see which option user checks
     $("#option0").prop('checked', true);
-  };
-
-
-// Function to gather users choice
-$(document).on("click", "input[name=option]:checked", function() {
-    
-    // Takes value from button user clicks
-    var userGuess = ($(this).attr("value"));
-
-    // Converts string to integer
-    userGuess = parseInt(userGuess);
-
-    console.log(userGuess);
+};
 
 
 
-  });
 
-
-// Function to check for right answer
+// Function to gather user's choice, stop timer and check answer
 function checkAnswer() {
-    if ($("input[name=option]:checked").val() === triviaQuestions.answer) {
-        // Adds plus one to correct guesses
-        alert("right ansswer");
-        correctGuesses++;
+    $(document).on("click", "input[name=option]:checked", function () {
+
+        // Takes value from button user clicks
+        var userGuess = ($(this).attr("value"));
+
+        // Converts string to integer
+        userGuess = parseInt(userGuess);
+
+        // Stops timer
         stopTimer();
-    };
-  };
-  
-  // Testing check answer function
-  console.log(checkAnswer);
+
+        // Checks to see if user's guess matches correct answer
+        if (userGuess == triviaQuestions[currentQuestion].answer) {
+            // Alert for testing purposes
+            $('#gamemessage').text("That is correct!");
+            // Adds plus one to correct guesses
+            correctGuesses++;
+        } else if (userGuess !== triviaQuestions[currentQuestion].answer) {
+            answer =
+                $('#gamemessage').text("Wrong! The correct answer was " + triviaQuestions[currentQuestion].options[currentQuestion + 1] + '.'); // Shows string instead of index for correct answer  
+            // Adds plus one to incorrect guesses
+            incorrectGuesses++;
+
+        } else {
+            // Adds plus on to unanswered if user doesn't click on any of the options
+            unanswered++;
+        };
+
+    });
+
+    // sdfsdfdsf
+    if (currentQuestion === triviaQuestions.length - 1){
+        setTimeout(results, 3 * 1000);
+      } else {
+        setTimeout(game.nextQuestion, 3 * 1000);
+      }
+}
+
+// Restart function for end of game
+function restart() {
+    $("#restart").add("<button>");
+    $("<button>").text("Play Again!");
+    $("<button>").on("click", function (event) {
+        startGame();      
+        
+}
 
 
 // Game begins
 //======================================================================================
 
 // Makes function available after page loads
-$(document).ready(function(){
+$(document).ready(function () {
+    
+    startGame();
 
+    // Creates start button 
+    var startButton = document.createElement("button");
+    // Adds text to button
+    startButton.innerHTML = "Start Game";
 
-// Creates start button 
-var startButton = document.createElement("button");
-// Adds text to button
-startButton.innerHTML = "Start Game";
+    // Adds to the DOM
+    $('#start').html(startButton);
 
-// Adds to the DOM
-$('#start').html(startButton);
-
-// Click event to start timer, hide start button, and load first question
-$('#start').on('click', function () {
-    // Hides start button on click
-    $(this).hide();
-    // Calls countdown function
-    countdown();
-    showQuestion();
-    checkAnswer();
-});
-
-
-
-
+    // Click event to start timer, hide start button, and load first question
+    $('#start').on('click', function () {
+        // Hides start button on click
+        $(this).hide();
+        // Calls countdown function
+        countdown();
+        showQuestion();
+        checkAnswer();
+    });
 
 
 
-// If user guesses correctly, show "correct!" and image for 5 seconds
-// If user guess incorrectly, show "incorrect!," correct answer, and image for 5 seconds
-// If user does not guess, show correct answer for 5 seconds
 
-// After 5 seconds, user is taken to second question, repeat process 
 
-/* After user has gone through all 10 questions, they are taken to a summary that shows
-correct guesses, incorrect guesses, and unanswered questions, along with a start over button 
-to reset the entire game */
+
+
+    // If user guesses correctly, show "correct!" and image for 5 seconds
+    // If user guess incorrectly, show "incorrect!," correct answer, and image for 5 seconds
+    // If user does not guess, show correct answer for 5 seconds
+
+    // After 5 seconds, user is taken to second question, repeat process 
+
+    /* After user has gone through all 10 questions, they are taken to a summary that shows
+    correct guesses, incorrect guesses, and unanswered questions, along with a start over button 
+    to reset the entire game */
 
 })
