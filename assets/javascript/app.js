@@ -6,7 +6,6 @@ var triviaQuestions = [{
     options: ["Denny's", "Chili's", "Applebees", "IHOP"],
     answer: [1],
     answerName: "Chili's",
-    answerImage: "../assets/images/chilis.png"
 },
 
 {
@@ -72,11 +71,12 @@ var results = $('#gameresults');
 var submitButton = $("#submit");
 var index;
 var userGuess = [];
+var submitButton
 
+// Results
 var correctGuesses = 0;
 var incorrectGuesses = 0;
-var unanswered = 3;
-var submitButton
+var unanswered = 0;
 
 
 // Game functions
@@ -144,37 +144,35 @@ function checkAnswer() {
 
     // Click event to stop timer and check answer when user hits submit button
     $('#submit').on('click', function () {
-      stopTimer();
-      checkAnswer();
- 
+        stopTimer();
+        checkAnswer();
 
+        // Takes value from button user clicks
+        var userGuess = ($(this).attr("value"));
 
-      // Takes value from button user clicks
-      var userGuess = ($(this).attr("value"));
+        // Converts string to integer
+        userGuess = parseInt(userGuess);
 
-      // Converts string to integer
-      userGuess = parseInt(userGuess);
+        // Stops timer
+        stopTimer();
 
-      // Stops timer
-      stopTimer();
+        // Checks to see if user's guess matches correct answer
+        if (userGuess == triviaQuestions[currentQuestion].answer) {
+            $('#gamemessage').text("That is correct!");
+            $("#image").html(answerImage);
+            // Adds plus one to correct guesses
+            correctGuesses++;
+        } else if (userGuess !== triviaQuestions[currentQuestion].answer) {
+            answer =
+                $('#gamemessage').text("Wrong! The correct answer was " + triviaQuestions[currentQuestion].answerName + '.');
+            // Adds plus one to incorrect guesses
+            incorrectGuesses++
+        } else {
+            // Adds plus on to unanswered if user doesn't click on any of the options
+            unanswered++;
+        };
 
-      // Checks to see if user's guess matches correct answer
-      if (userGuess == triviaQuestions[currentQuestion].answer) {
-          $('#gamemessage').text("That is correct!");
-          $("#image").html(answerImage);
-          // Adds plus one to correct guesses
-          correctGuesses++;
-      } else if (userGuess !== triviaQuestions[currentQuestion].answer) {
-          answer =
-              $('#gamemessage').text("Wrong! The correct answer was " + triviaQuestions[currentQuestion].answerName + '.');
-          // Adds plus one to incorrect guesses
-          incorrectGuesses++
-      } else {
-          // Adds plus on to unanswered if user doesn't click on any of the options
-          unanswered++;
-      };
-
-  });
+    });
 
 }
 
@@ -230,21 +228,5 @@ $(document).ready(function () {
 
 
     });
-
-
-
-
-
-
-
-    // If user guesses correctly, show "correct!" and image for 5 seconds
-    // If user guess incorrectly, show "incorrect!," correct answer, and image for 5 seconds
-    // If user does not guess, show correct answer for 5 seconds
-
-    // After 5 seconds, user is taken to second question, repeat process 
-
-    /* After user has gone through all 10 questions, they are taken to a summary that shows
-    correct guesses, incorrect guesses, and unanswered questions, along with a start over button 
-    to reset the entire game */
 
 })

@@ -4,13 +4,13 @@
 
 ### Game Directions
 
-1. When you hit start, you'll see a 30 second timer start to count down. 
+* When you hit start, you'll see a 30 second timer start to count down. 
 
-2. Select from 1 of 4 answers and hit "Submit Answer" to progress and see your result before being taken to the next question. 
+* Select from 1 of 4 answers and hit "Submit Answer" to see your result before progressing to the next question. If you don't select a question, you'll be taken to the next question automatically after 30 seconds. 
 
-3. After completing (or not answering) all 8 questions, you'll see a result screen with your correct guesses, incorrect guesses, and unanswered questions. 
+* After completing (or not answering) all 8 questions, you'll see a result screen with your correct guesses, incorrect guesses, and unanswered questions. 
 
-Note: I'm still working out the kinks to get this game fully funcitonal. 
+**Note: I'm still working out the kinks to get this game fully functional.**
 
 #### Link to Game
-
+https://sarahmbeecroft.github.io/TriviaGame/
